@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced medical prescription analysis and diagnosis platform powered by AI">
+    <meta name="theme-color" content="#2563eb">
+    <title>CuraSense Diagnosis Dashboard | AI-Powered Medical Analysis</title>
+    
+    <!-- Google Fonts - Reduced weights -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/frontend/dashboard.css">
+    
+    <!-- Libraries - Minimal -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>CuraSense <span class="subtitle">DIAGNOSIS</span></h2>
+            </div>
+            <nav class="nav-menu">
+                <a href="#home" class="nav-item active" data-section="home">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    </span> Home
+                </a>
+                <a href="#analyze" class="nav-item" data-section="analyze">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                    </span> Analyze
+                </a>
+                <a href="#compare" class="nav-item" data-section="compare">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    </span> Compare
+                </a>
+                <a href="#safety" class="nav-item" data-section="safety">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </span> Safety
+                </a>
+                <a href="#reports" class="nav-item" data-section="reports">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    </span> Reports
+                </a>
+                <a href="#xray" class="nav-item" data-section="xray">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </span> X-Ray Analysis
+                </a>
+            </nav>
+            
+            <div class="quick-actions">
+                <h4>Quick Actions</h4>
+                <button class="action-btn" onclick="showUploadModal()">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    </span> Upload Prescription
+                </button>
+                <button class="action-btn" onclick="showManualEntryModal()">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </span> Enter Manually
+                </button>
+                <button class="action-btn" onclick="showCompareModal()">
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </span> Compare Medicines
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search medicines, diseases, interactions" id="searchInput">
+                    <button onclick="searchContent()">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+                </div>
+                <div class="user-actions">
+                    <button class="theme-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                        <svg class="theme-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                        <svg class="theme-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="btn-secondary plan-badge">
+                        <span class="badge-icon">
+                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        </span> Free Plan
+                    </button>
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=User+Profile&background=2563eb&color=fff&size=128&bold=true" alt="User Profile">
+                        <div class="status-dot"></div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Home Dashboard Section -->
+            <section id="section-home" class="content-section active">
+                <div class="dashboard-header">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h1 class="gradient-text-animated">Home Dashboard</h1>
+                    <p class="subtitle-text">Start by uploading a prescription, entering medicine details, or comparing brands.</p>
+                </div>
+
+                <div class="action-cards">
+                    <div class="card action-card" onclick="showUploadModal()">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <h3>Upload Prescription Image</h3>
+                        <p>Drag & drop a photo of your prescription or browse files</p>
+                        <button class="btn-primary">
+                            <span class="btn-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </span> Upload Image
+                        </button>
+                    </div>
+
+                    <div class="card action-card" onclick="showManualEntryModal()">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </div>
+                        <h3>Enter Medicine/Disease Manually</h3>
+                        <p>Type the medicine name and details for analysis</p>
+                        <button class="btn-primary">
+                            <span class="btn-icon">
+                                <svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                            </span> Enter Manually
+                        </button>
+                    </div>
+
+                    <div class="card action-card" onclick="showCompareModal()">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h3>Compare Medicines</h3>
+                        <p>Check ingredients, strength, and compare different brands</p>
+                        <button class="btn-primary">
+                            <span class="btn-icon">
+                                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            </span> Start Comparison
+                        </button>
+                    </div>
+                </div>
+
+                <div class="upload-section card">
+                    <h2>Upload / Enter Details</h2>
+                    <div class="upload-area" id="dropZone">
+                        <div class="upload-placeholder">
+                            <span class="upload-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </span>
+                            <p>Drag & drop prescription image or click to browse</p>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*,application/pdf" hidden>
+                    </div>
+                    <div class="manual-entry">
+                        <textarea id="manualEntry" placeholder="Enter medicine/disease details
+e.g., Paracetamol 500mg twice daily for 5 days" rows="4"></textarea>
+                        <div class="btn-group">
+                            <button class="btn-primary" onclick="analyzeMedicine()">Analyze Medicine</button>
+                            <button class="btn-secondary" onclick="smartParse()">Smart Parse</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NER & Validation Results -->
+                <div class="card" id="nerResults" style="display: none;">
+                    <h2>NER & Validation Results</h2>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Medicine Name</th>
+                                <th>Dosage</th>
+                                <th>Frequency</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nerTableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Recent Reports -->
+                <div class="card">
+                    <h2>Recent Reports</h2>
+                    <div class="reports-list" id="recentReports">
+                        <p class="no-data">No recent reports. Upload a prescription to get started.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analyze Section -->
+            <section id="section-analyze" class="content-section">
+                <div class="dashboard-header">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                    </div>
+                    <h1 class="gradient-text-animated">Medicine Analysis</h1>
+                    <p class="subtitle-text">Comprehensive medication analysis and safety assessment</p>
+                </div>
+                <div class="analysis-container">
+                    <div class="card">
+                        <h2>Patient Information</h2>
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" id="patientName" placeholder="Patient Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Age:</label>
+                            <input type="number" id="patientAge" placeholder="Age">
+                        </div>
+                        <div class="form-group">
+                            <label>Medical History:</label>
+                            <textarea id="medicalHistory" placeholder="Enter medical history" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="card" id="analysisResults">
+                        <h2>Analysis Results</h2>
+                        <div class="analysis-content">
+                            <p class="no-data">Enter medicine details and click analyze to see results.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Compare Section -->
+            <section id="section-compare" class="content-section">
+                <h1>Alternative Medicine Comparison</h1>
+                <div class="comparison-container">
+                    <div class="compare-upload">
+                        <div class="upload-box">
+                            <h3>Upload Original Medicine Image</h3>
+                            <input type="file" id="originalMedicine" accept="image/*">
+                        </div>
+                        <div class="upload-box">
+                            <h3>Upload Alternative Brand Image</h3>
+                            <input type="file" id="alternativeMedicine" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="comparison-table card">
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    <th>Check</th>
+                                    <th>Original</th>
+                                    <th>Alternative</th>
+                                    <th>Recommendation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="compareTableBody">
+                                <tr>
+                                    <td>Ingredient Match</td>
+                                    <td><span class="status-indicator match">● Match</span></td>
+                                    <td><span class="status-indicator match">● Match</span></td>
+                                    <td>Substitution acceptable</td>
+                                </tr>
+                                <tr>
+                                    <td>Strength/Dosage</td>
+                                    <td>500 mg</td>
+                                    <td>650 mg</td>
+                                    <td>⚠️ Adjust dosage; consult doctor</td>
+                                </tr>
+                                <tr>
+                                    <td>Safety & Substitution</td>
+                                    <td>Safe</td>
+                                    <td>Caution</td>
+                                    <td>Use only if needed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Safety Section -->
+            <section id="section-safety" class="content-section">
+                <h1>Safety & Best Practices</h1>
+                <div class="safety-grid">
+                    <div class="card safety-card">
+                        <h2>Safety Report</h2>
+                        <div class="safety-item">
+                            <span class="warning-icon">
+                                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            </span>
+                            <div>
+                                <h4>History of gastric ulcers, Avoid NSAIDs like Ibuprofen</h4>
+                                <span class="severity high">High Risk</span>
+                            </div>
+                        </div>
+                        <div class="safety-item">
+                            <span class="warning-icon">
+                                <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            </span>
+                            <div>
+                                <h4>Interactions: Ibuprofen may interact with: Warfarin - Monitor INR</h4>
+                                <span class="severity medium">Medium</span>
+                            </div>
+                        </div>
+                        <div class="safety-item success">
+                            <span class="check-icon">
+                                <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </span>
+                            <div>
+                                <h4>Paracetamol within max 3g/day is generally safe</h4>
+                                <span class="severity safe">Safe</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card best-practices-card">
+                        <h2>Best Practices</h2>
+                        <div class="practices-content">
+                            <h3>Recommended dosages</h3>
+                            <ul>
+                                <li><strong>Paracetamol:</strong> 500 mg every 6-8 hours with food</li>
+                                <li><strong>Ibuprofen:</strong> 200-400 mg every 6-8 hours with food</li>
+                            </ul>
+
+                            <h3>Safer alternatives</h3>
+                            <ul>
+                                <li>Consider acetaminophen for pain if gastric ulcers history</li>
+                                <li>Use lowest effective dose</li>
+                                <li>Consider NSAIDs as local option</li>
+                            </ul>
+
+                            <div class="external-links">
+                                <a href="#" class="link-btn">WHO Guidelines</a>
+                                <a href="#" class="link-btn">NICE Guidance</a>
+                                <a href="#" class="link-btn">FDA Resources</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="section-reports" class="content-section">
+                <h1>Final Report</h1>
+                <div class="report-container card">
+                    <div class="report-header">
+                        <div class="patient-info">
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </span>
+                            <button onclick="addPatientInfo()">Add Info</button>
+                        </div>
+                    </div>
+                    <div class="report-content" id="finalReportContent">
+                        <p class="placeholder">No analysis completed yet. Analyze a prescription to generate a report.</p>
+                    </div>
+                    <div class="report-actions">
+                        <button class="btn-primary" onclick="downloadReport()">
+                            <span class="btn-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </span> Download Report
+                        </button>
+                        <button class="btn-secondary" onclick="shareWithDoctor()">
+                            <span>
+                                <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;vertical-align:middle;margin-right:4px;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                            </span> Share with Doctor
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- X-Ray Analysis Section -->
+            <section id="section-xray" class="content-section">
+                <div class="dashboard-header">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <h1 class="gradient-text-animated">Medical Image Analysis</h1>
+                    <p class="subtitle-text">Upload X-ray or medical images for AI-powered analysis and diagnosis</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Step 1: Upload Medical Image</h3>
+                    <div class="xray-upload-area" id="xrayDropZone">
+                        <div class="upload-placeholder" id="xrayPlaceholder">
+                            <span class="upload-icon">
+                                <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </span>
+                            <p>Drag & drop X-ray/medical image or click to browse</p>
+                            <p class="file-types">Supported: JPG, PNG, DICOM</p>
+                        </div>
+                        <input type="file" id="xrayFileInput" accept="image/*" hidden>
+                        <div id="xrayPreview" class="image-preview" style="display: none;">
+                            <img id="xrayPreviewImage" alt="X-ray preview">
+                            <button class="btn-secondary small-btn" onclick="removeXrayImage()">✕ Remove</button>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="uploadXrayBtn" onclick="uploadAndAnalyzeXray()" disabled>
+                        <span class="btn-icon">
+                            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </span> Upload & Generate Report
+                    </button>
+                    <div id="uploadStatus" class="status-message"></div>
+                </div>
+
+                <div class="card" id="xrayReportCard" style="display: none;">
+                    <h3>AI-Generated X-Ray Report</h3>
+                    <div class="loading-indicator" id="xrayLoading">
+                        <div class="spinner"></div>
+                        <p>Analyzing medical image and generating report...</p>
+                    </div>
+                    <div id="xrayReportResult" class="analysis-result" style="display: none;"></div>
+                    <div class="report-actions" id="xrayReportActions" style="display: none;">
+                        <button class="btn-primary" onclick="downloadXrayReport()">
+                            <span class="btn-icon">
+                                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </span> Download Report
+                        </button>
+                        <button class="btn-secondary" onclick="showQuestionSection()">
+                            <span>?</span> Ask Questions About Report
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" id="xrayQueryCard" style="display: none;">
+                    <h3>Ask Questions About The Report</h3>
+                    <div class="chat-section">
+                        <div id="xrayConversation" class="conversation-area"></div>
+                        <div class="query-input-section">
+                            <input type="text" id="xrayQuery" placeholder="Ask about findings, severity, recommendations..." class="form-control" onkeypress="if(event.key==='Enter') askXrayQuestion()">
+                            <button class="btn-primary" onclick="askXrayQuestion()">
+                                <span>→</span> Ask
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>ℹ️ How It Works</h4>
+                    <ul>
+                        <li><strong>Step 1:</strong> Upload your X-ray, CT scan, or MRI image</li>
+                        <li><strong>Step 2:</strong> AI automatically analyzes the image and generates a detailed report</li>
+                        <li><strong>Step 3:</strong> Ask specific questions about findings, severity, or treatment recommendations</li>
+                        <li>⚠️ <strong>Important:</strong> This is an AI assistant tool for educational purposes. Always consult a qualified healthcare provider for medical decisions.</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- Assistant Chatbot Sidebar -->
+        <aside class="assistant-sidebar" id="assistantSidebar">
+            <div class="assistant-header">
+                <h3>Assistant</h3>
+                <button class="close-btn" onclick="toggleAssistant()">✕</button>
+            </div>
+            <div class="assistant-content">
+                <h4>Chatbot Assistant</h4>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message bot">
+                        <p>Hello! Upload a prescription or ask about a medicine.</p>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type your question..." 
+                           onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button class="send-btn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Toggle Assistant Button -->
+        <button class="assistant-toggle" onclick="toggleAssistant()">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing your request...</p>
+    </div>
+
+    <!-- Share with Doctor Modal -->
+    <div class="modal-overlay" id="shareModal" style="display: none;">
+        <div class="modal-content card">
+            <button class="close-btn" onclick="closeShareModal()">×</button>
+            <h2>Share Report with Doctor</h2>
+            <p class="subtitle-text">Choose how you'd like to share this medical report</p>
+            
+            <div class="share-options">
+                <div class="share-option-card" onclick="shareViaEmail()">
+                    <div class="option-icon">
+                        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <h3>Email Report</h3>
+                    <p>Send via email to your doctor</p>
+                </div>
+                
+                <div class="share-option-card" onclick="copyReportLink()">
+                    <div class="option-icon">
+                        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </div>
+                    <h3>Copy Link</h3>
+                    <p>Share a secure link</p>
+                </div>
+                
+                <div class="share-option-card" onclick="downloadReportPDF()">
+                    <div class="option-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <h3>Download PDF</h3>
+                    <p>Save as PDF document</p>
+                </div>
+                
+                <div class="share-option-card" onclick="printReport()">
+                    <div class="option-icon">
+                        <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                    </div>
+                    <h3>Print Report</h3>
+                    <p>Print directly</p>
+                </div>
+            </div>
+            
+            <div class="email-form" id="emailForm" style="display: none;">
+                <h3>Send via Email</h3>
+                <div class="form-group">
+                    <label>Doctor's Email:</label>
+                    <input type="email" id="doctorEmail" placeholder="doctor@hospital.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Email:</label>
+                    <input type="email" id="patientEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Message (Optional):</label>
+                    <textarea id="emailMessage" rows="3" placeholder="Add a message to your doctor..."></textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="sendEmailReport()">Send Email</button>
+                    <button class="btn-secondary" onclick="backToShareOptions()">Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/frontend/dashboard.js"></script>
+    <script src="/frontend/init-libraries.js"></script>
+</body>
+</html>

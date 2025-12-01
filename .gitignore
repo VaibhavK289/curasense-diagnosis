@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+env/
+ENV/
+curasense_env/
+curasense_vision_env/
+
+# Environment Variables
+.env
+*.env
+.env.local
+.env.*.local
+
+# API Keys (IMPORTANT - Keep these private!)
+*api_key*
+*API_KEY*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# ChromaDB / Vector Database
+chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+app.log
+
+# Uploads and Cache
+uploads/
+cache/
+*.cache
+curasense-ml/cache/
+curasense-ml/Mini-CDSS/cache/
+
+# Model files (if large)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+models/
+
+# System Files
+Thumbs.db
+desktop.ini
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Documentation builds
+docs/_build/
+site/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
