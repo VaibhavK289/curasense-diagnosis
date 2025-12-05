@@ -10,7 +10,7 @@
 
 An advanced AI-powered medical diagnosis system leveraging multi-agent workflows, RAG, and vision analysis for comprehensive clinical decision support. Features a modern **Next.js 16** frontend with beautiful animations and a professional healthcare UI.
 
-## ✨ What's New
+##  What's New
 
 - 🎨 **Brand New Next.js 16 Frontend** - Complete redesign with React 19 and TypeScript
 - 🌊 **Framer Motion Animations** - Smooth, professional animations throughout
@@ -21,7 +21,7 @@ An advanced AI-powered medical diagnosis system leveraging multi-agent workflows
 - 💬 **AI Chat Assistant** - Interactive chat for follow-up questions
 - 🔄 **State Management** - Zustand for efficient client-state management
 
-## 🌟 Features
+##  Features
 
 - **🤖 Multi-Agent AI Workflows** - Orchestrated diagnosis using CrewAI and LangGraph
 - **📄 Prescription Analysis** - Upload and analyze medical prescriptions and blood test reports
@@ -31,14 +31,14 @@ An advanced AI-powered medical diagnosis system leveraging multi-agent workflows
 - **⚡ Real-time Streaming** - Live diagnosis updates with Server-Sent Events
 - **🔐 Secure** - Session-based data isolation (15-min TTL)
 
-## 🔧 Prerequisites
+##  Prerequisites
 
 - **Node.js** 18+ (for Next.js frontend)
 - **Python** 3.10+
 - **Conda** (Miniconda/Anaconda)
 - **API Keys**: [Gemini](https://makersuite.google.com/app/apikey) | [Groq](https://console.groq.com/) | [Tavily](https://tavily.com/)
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 curasense-diagnosis/
@@ -92,7 +92,7 @@ curasense-diagnosis/
 └── start_servers.bat
 ```
 
-## 📥 Installation
+##  Installation
 
 ### 1. Clone Repository
 ```bash
@@ -151,7 +151,7 @@ TAVILY_API_KEY="your_tavily_api_key"
 HUGGINGFACE_TOKEN="your_hf_token"
 ```
 
-## 🚀 Running the Application
+##  Running the Application
 
 ### Option 1: Run All Services
 
@@ -188,7 +188,7 @@ start_servers.bat
 | 📊 Legacy Dashboard | http://localhost:8000 |
 | 🔧 API Documentation | http://localhost:8001/docs |
 
-## 🎨 Frontend Tech Stack
+##  Frontend Tech Stack
 
 | Technology | Purpose |
 |------------|---------|
@@ -201,7 +201,7 @@ start_servers.bat
 | **Zustand** | State management |
 | **Lucide Icons** | Icon library |
 
-## 📸 Screenshots
+##  Screenshots
 
 ### Home Page
 - Modern hero section with animated gradient text
@@ -222,7 +222,7 @@ start_servers.bat
 
 ---
 
-## 📄 License
+##  License
 
 MIT License - See [LICENSE](LICENSE) file
 
