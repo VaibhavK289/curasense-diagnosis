@@ -137,10 +137,10 @@ export default function Home() {
             initial="initial"
             animate="animate"
             transition={springPresets.bouncy}
-            className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--color-success)/0.3)] bg-[hsl(var(--color-success)/0.1)] px-4 py-2 text-sm font-medium text-[hsl(var(--color-success))] mb-8"
+            className="inline-flex items-center gap-2 rounded-full border border-[hsl(var(--color-success)/0.3)] bg-[hsl(var(--color-success)/0.1)] px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-[hsl(var(--color-success))] mb-6 sm:mb-8"
           >
             <PulsingDot color="success" />
-            <span>AI-Powered Healthcare Assistant</span>
+            <span>AI-Powered Healthcare</span>
           </motion.div>
 
           {/* Main Headline - blur in effect */}
@@ -149,10 +149,10 @@ export default function Home() {
             initial="initial"
             animate="animate"
             transition={{ ...springPresets.smooth, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-[hsl(var(--foreground))]"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-4 sm:mb-6 text-[hsl(var(--foreground))] px-2"
           >
             Your Health, Powered by{" "}
-            <GradientText variant="brand" className="block mt-2">
+            <GradientText variant="brand" className="block mt-1 sm:mt-2">
               Intelligent AI
             </GradientText>
           </motion.h1>
@@ -163,23 +163,24 @@ export default function Home() {
             initial="initial"
             animate="animate"
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-[hsl(var(--muted-foreground))] max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-[hsl(var(--muted-foreground))] max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-4"
           >
             CuraSense combines cutting-edge AI with medical expertise to provide
             instant analysis of prescriptions, medical images, and drug
             comparisons.
           </motion.p>
 
-          {/* CTA Buttons - slide in from left/right */}
-          <div className="flex flex-wrap justify-center gap-4">
+          {/* CTA Buttons - stack on mobile */}
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
             <motion.div
               variants={animationVariants.slideInLeft}
               initial="initial"
               animate="animate"
               transition={{ delay: 0.3, ...springPresets.snappy }}
+              className="w-full sm:w-auto"
             >
-              <Link href="/diagnosis">
-                <Button size="lg" variant="default" className="gap-2 text-base px-8 shape-sharp">
+              <Link href="/diagnosis" className="block">
+                <Button size="lg" variant="default" className="gap-2 text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto h-12 sm:h-11 shape-sharp active:scale-[0.98]">
                   <Stethoscope className="h-5 w-5" />
                   Start Diagnosis
                   <ArrowRight className="h-4 w-4" />
@@ -191,9 +192,10 @@ export default function Home() {
               initial="initial"
               animate="animate"
               transition={{ delay: 0.35, ...springPresets.snappy }}
+              className="w-full sm:w-auto"
             >
-              <Link href="/medicine">
-                <Button size="lg" variant="outline" className="gap-2 text-base px-8 shape-capsule">
+              <Link href="/medicine" className="block">
+                <Button size="lg" variant="outline" className="gap-2 text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto h-12 sm:h-11 shape-capsule active:scale-[0.98]">
                   <Pill className="h-5 w-5" />
                   Compare Medicines
                 </Button>
@@ -202,23 +204,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Decorative DNA Pattern divider */}
-        <DNAPattern className="mx-auto max-w-md" />
+        {/* Decorative DNA Pattern divider - hidden on small mobile */}
+        <DNAPattern className="mx-auto max-w-md hidden sm:block" />
 
         {/* Stats Section with varied stagger animations */}
-        <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {stats.map((stat, index) => (
             <StaggerItem key={stat.label}>
               <motion.div
                 whileHover={{ y: -4, transition: springPresets.snappy }}
                 whileTap={{ scale: 0.98 }}
               >
-                <SpotlightCard className="text-center p-6 md:p-8 shape-asymmetric">
-                  <stat.icon className={`h-8 w-8 mx-auto mb-4 ${stat.color}`} />
-                  <div className="text-3xl md:text-4xl font-bold text-[hsl(var(--foreground))] mb-1">
+                <SpotlightCard className="text-center p-4 sm:p-6 md:p-8 shape-asymmetric">
+                  <stat.icon className={`h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 sm:mb-4 ${stat.color}`} />
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-[hsl(var(--foreground))] mb-0.5 sm:mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-[hsl(var(--muted-foreground))]">
+                  <div className="text-xs sm:text-sm text-[hsl(var(--muted-foreground))]">
                     {stat.label}
                   </div>
                 </SpotlightCard>
@@ -228,20 +230,20 @@ export default function Home() {
         </StaggerContainer>
 
         {/* Heartbeat divider */}
-        <HeartbeatDivider className="my-8" color="success" />
+        <HeartbeatDivider className="my-6 sm:my-8" color="success" />
 
         {/* Main Features with varied shapes */}
         <section>
-          <AnimatedContainer variant="scaleIn" className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-[hsl(var(--foreground))] mb-4">
+          <AnimatedContainer variant="scaleIn" className="text-center mb-8 sm:mb-12 px-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[hsl(var(--foreground))] mb-3 sm:mb-4">
               Powerful Healthcare Tools
             </h2>
-            <p className="text-[hsl(var(--muted-foreground))] text-lg max-w-xl mx-auto">
+            <p className="text-[hsl(var(--muted-foreground))] text-sm sm:text-base lg:text-lg max-w-xl mx-auto">
               Three specialized AI models working together for comprehensive healthcare support
             </p>
           </AnimatedContainer>
 
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -255,27 +257,27 @@ export default function Home() {
               >
                 <Link href={feature.href}>
                   <TiltCard 
-                    className={`h-full cursor-pointer ${index === 1 ? 'shape-soft' : index === 2 ? 'shape-asymmetric-alt' : ''}`}
+                    className={`h-full cursor-pointer active:scale-[0.98] ${index === 1 ? 'shape-soft' : index === 2 ? 'shape-asymmetric-alt' : ''}`}
                   >
-                    <div className="h-full flex flex-col p-6 md:p-8">
+                    <div className="h-full flex flex-col p-4 sm:p-6 md:p-8">
                       {/* Icon with category color and varied shape */}
                       <div
-                        className={`w-14 h-14 ${index === 0 ? 'rounded-xl' : index === 1 ? 'rounded-2xl' : 'shape-squircle'} ${feature.bgColor} flex items-center justify-center mb-6 shadow-lg ${feature.shadowColor}`}
+                        className={`w-11 h-11 sm:w-14 sm:h-14 ${index === 0 ? 'rounded-xl' : index === 1 ? 'rounded-2xl' : 'shape-squircle'} ${feature.bgColor} flex items-center justify-center mb-4 sm:mb-6 shadow-lg ${feature.shadowColor}`}
                       >
-                        <feature.icon className="h-7 w-7 text-white" />
+                        <feature.icon className="h-5 w-5 sm:h-7 sm:w-7 text-white" />
                       </div>
                       
                       {/* Content */}
-                      <h3 className="text-xl font-semibold text-[hsl(var(--foreground))] mb-3">
+                      <h3 className="text-lg sm:text-xl font-semibold text-[hsl(var(--foreground))] mb-2 sm:mb-3">
                         {feature.title}
                       </h3>
-                      <p className="text-[hsl(var(--muted-foreground))] mb-6 flex-grow leading-relaxed">
+                      <p className="text-sm sm:text-base text-[hsl(var(--muted-foreground))] mb-4 sm:mb-6 flex-grow leading-relaxed">
                         {feature.description}
                       </p>
                       
                       {/* CTA with category color */}
                       <motion.div 
-                        className={`flex items-center gap-2 ${feature.textColor} font-medium`}
+                        className={`flex items-center gap-2 ${feature.textColor} font-medium text-sm sm:text-base`}
                         whileHover={{ x: 4 }}
                         transition={springPresets.snappy}
                       >
@@ -295,15 +297,15 @@ export default function Home() {
           <Card className="overflow-hidden border-0 shadow-xl shape-asymmetric">
             <div className="grid lg:grid-cols-2 gap-0">
               {/* Steps */}
-              <div className="p-8 md:p-12 lg:p-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-[hsl(var(--foreground))] mb-8">
+              <div className="p-5 sm:p-8 md:p-12 lg:p-16">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[hsl(var(--foreground))] mb-6 sm:mb-8">
                   How CuraSense Works
                 </h2>
-                <div className="space-y-8">
+                <div className="space-y-5 sm:space-y-8">
                   {howItWorksSteps.map((item, index) => (
                     <motion.div 
                       key={item.step} 
-                      className="flex gap-5"
+                      className="flex gap-4 sm:gap-5"
                       initial={{ opacity: 0, x: -30, scale: 0.95 }}
                       whileInView={{ opacity: 1, x: 0, scale: 1 }}
                       transition={{ 
@@ -314,7 +316,7 @@ export default function Home() {
                     >
                       <div className="flex-shrink-0">
                         <motion.div 
-                          className={`w-12 h-12 ${index === 0 ? 'rounded-lg' : index === 1 ? 'rounded-xl' : 'rounded-2xl'} bg-gradient-to-br ${item.color} flex items-center justify-center text-white font-bold shadow-lg`}
+                          className={`w-10 h-10 sm:w-12 sm:h-12 ${index === 0 ? 'rounded-lg' : index === 1 ? 'rounded-xl' : 'rounded-2xl'} bg-gradient-to-br ${item.color} flex items-center justify-center text-white font-bold shadow-lg text-sm sm:text-base`}
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={springPresets.bouncy}
                         >
@@ -322,10 +324,10 @@ export default function Home() {
                         </motion.div>
                       </div>
                       <div>
-                        <h3 className="font-semibold text-[hsl(var(--foreground))] text-lg mb-1">
+                        <h3 className="font-semibold text-[hsl(var(--foreground))] text-base sm:text-lg mb-1">
                           {item.title}
                         </h3>
-                        <p className="text-[hsl(var(--muted-foreground))] leading-relaxed">
+                        <p className="text-sm sm:text-base text-[hsl(var(--muted-foreground))] leading-relaxed">
                           {item.desc}
                         </p>
                       </div>
@@ -335,7 +337,7 @@ export default function Home() {
               </div>
 
               {/* Health CTA Panel - using brand gradient */}
-              <div className="bg-gradient-to-br from-[hsl(var(--brand-primary))] via-[hsl(var(--brand-primary))] to-[hsl(var(--brand-secondary))] p-8 md:p-12 lg:p-16 flex items-center justify-center relative overflow-hidden">
+              <div className="bg-gradient-to-br from-[hsl(var(--brand-primary))] via-[hsl(var(--brand-primary))] to-[hsl(var(--brand-secondary))] p-5 sm:p-8 md:p-12 lg:p-16 flex items-center justify-center relative overflow-hidden">
                 {/* Decorative organic blob */}
                 <div className="absolute inset-0 opacity-10">
                   <OrganicBlob className="absolute -top-20 -right-20 w-[400px] h-[400px]" color="white" />

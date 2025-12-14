@@ -69,18 +69,18 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Hover trigger area - always visible on the left edge */}
+      {/* Desktop Only - Hover trigger area */}
       <div
-        className="fixed left-0 top-0 z-50 h-screen w-4 cursor-pointer"
+        className="hidden lg:block fixed left-0 top-0 z-50 h-screen w-4 cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
       />
 
-      {/* Collapsed indicator - visible when sidebar is hidden */}
+      {/* Desktop Only - Collapsed indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 0 : 1 }}
         transition={{ duration: 0.2 }}
-        className="fixed left-0 top-0 z-40 flex h-screen w-16 flex-col items-center border-r border-[hsl(var(--border))] bg-[hsl(var(--card)/0.95)] py-6 backdrop-blur-xl"
+        className="hidden lg:flex fixed left-0 top-0 z-40 h-screen w-16 flex-col items-center border-r border-[hsl(var(--border))] bg-[hsl(var(--card)/0.95)] py-6 backdrop-blur-xl"
       >
         {/* Enterprise Logo - Collapsed */}
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--brand-primary))] via-[hsl(168_84%_38%)] to-[hsl(var(--brand-secondary))] shadow-lg shadow-[hsl(var(--brand-primary)/0.35)]">
@@ -125,7 +125,7 @@ export function Sidebar() {
         </div>
       </motion.div>
 
-      {/* Full sidebar - shows on hover */}
+      {/* Desktop Only - Full sidebar on hover */}
       <AnimatePresence>
         {isHovered && (
           <motion.aside
@@ -134,7 +134,7 @@ export function Sidebar() {
             exit={{ x: -280, opacity: 0 }}
             transition={springPresets.snappy}
             onMouseLeave={() => setIsHovered(false)}
-            className="fixed left-0 top-0 z-50 h-screen w-72 border-r border-[hsl(var(--border))] bg-[hsl(var(--card)/0.98)] shadow-2xl backdrop-blur-xl"
+            className="hidden lg:block fixed left-0 top-0 z-50 h-screen w-72 border-r border-[hsl(var(--border))] bg-[hsl(var(--card)/0.98)] shadow-2xl backdrop-blur-xl"
           >
             <div className="flex h-full flex-col">
               {/* Enterprise Logo - Expanded */}

@@ -17,6 +17,7 @@ import {
   Crown,
   X,
   Activity,
+  Menu,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
@@ -104,15 +105,26 @@ export function Header() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={springPresets.smooth}
-        className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background)/0.95)] px-4 md:px-6 backdrop-blur-xl"
+        className="sticky top-0 z-40 flex h-14 sm:h-16 items-center justify-between border-b border-[hsl(var(--border))] bg-[hsl(var(--background)/0.95)] px-3 sm:px-4 md:px-6 backdrop-blur-xl"
       >
-        {/* Left: Enterprise Logo + Wordmark */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--brand-primary))] via-[hsl(168_84%_38%)] to-[hsl(var(--brand-secondary))] shadow-lg shadow-[hsl(var(--brand-primary)/0.35)]"
+        {/* Left: Mobile Menu + Logo */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('toggleMobileNav'))}
+            className="lg:hidden flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))] transition-colors active:scale-95"
+            aria-label="Open menu"
           >
+            <Menu className="h-5 w-5" />
+          </button>
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--brand-primary))] via-[hsl(168_84%_38%)] to-[hsl(var(--brand-secondary))] shadow-lg shadow-[hsl(var(--brand-primary)/0.35)]"
+            >
             {/* Professional Medical Cross + Pulse + Shield Logo */}
             <svg 
               viewBox="0 0 32 32" 
@@ -153,23 +165,24 @@ export function Header() {
             <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-white/10 to-transparent" />
           </motion.div>
           <div className="hidden sm:block">
-            <span className="text-lg font-bold text-[hsl(var(--foreground))] tracking-tight">
+            <span className="text-base sm:text-lg font-bold text-[hsl(var(--foreground))] tracking-tight">
               Cura<span className="bg-gradient-to-r from-[hsl(var(--brand-primary))] to-[hsl(var(--brand-secondary))] bg-clip-text text-transparent">Sense</span>
             </span>
             <span className="hidden lg:block text-[10px] text-[hsl(var(--muted-foreground))] tracking-widest uppercase -mt-0.5">
               AI Healthcare
             </span>
           </div>
-        </Link>
+          </Link>
+        </div>
 
-        {/* Center: Command Palette Trigger */}
-        <div className="flex-1 flex justify-center px-4 md:px-8">
+        {/* Center: Command Palette Trigger - Hidden on small mobile */}
+        <div className="hidden sm:flex flex-1 justify-center px-2 sm:px-4 md:px-8">
           <button
             onClick={() => setIsCommandOpen(true)}
-            className="group flex items-center gap-3 h-10 w-full max-w-sm rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--muted)/0.5)] px-4 text-sm text-[hsl(var(--muted-foreground))] transition-all hover:border-[hsl(var(--brand-primary)/0.5)] hover:bg-[hsl(var(--muted))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-primary)/0.3)]"
+            className="group flex items-center gap-2 sm:gap-3 h-9 sm:h-10 w-full max-w-xs sm:max-w-sm rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--muted)/0.5)] px-3 sm:px-4 text-sm text-[hsl(var(--muted-foreground))] transition-all hover:border-[hsl(var(--brand-primary)/0.5)] hover:bg-[hsl(var(--muted))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--brand-primary)/0.3)]"
           >
             <Search className="h-4 w-4 text-[hsl(var(--muted-foreground))] group-hover:text-[hsl(var(--brand-primary))] transition-colors" />
-            <span className="flex-1 text-left truncate">Search or jump to...</span>
+            <span className="flex-1 text-left truncate text-xs sm:text-sm">Search...</span>
             <kbd className="hidden md:inline-flex h-5 items-center gap-1 rounded border border-[hsl(var(--border))] bg-[hsl(var(--background))] px-1.5 font-mono text-[10px] font-medium text-[hsl(var(--muted-foreground))]">
               Ctrl+K
             </kbd>
@@ -177,13 +190,23 @@ export function Header() {
         </div>
 
         {/* Right: Actions */}
-        <div className="flex items-center gap-1 md:gap-2">
+        <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2">
+          {/* Mobile Search Button */}
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsCommandOpen(true)}
+            className="sm:hidden flex h-9 w-9 items-center justify-center rounded-lg text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))] transition-colors active:scale-95"
+            aria-label="Search"
+          >
+            <Search className="h-[18px] w-[18px]" />
+          </motion.button>
+
           {/* Theme Toggle */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="relative flex h-9 w-9 items-center justify-center rounded-lg text-[hsl(var(--muted-foreground))] transition-colors hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]"
+            className="relative flex h-9 w-9 items-center justify-center rounded-lg text-[hsl(var(--muted-foreground))] transition-colors hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))] active:scale-95"
             aria-label="Toggle theme"
           >
             {mounted && (
@@ -204,7 +227,7 @@ export function Header() {
                 setIsProfileOpen(false);
               }}
               className={cn(
-                "relative flex h-9 w-9 items-center justify-center rounded-lg text-[hsl(var(--muted-foreground))] transition-colors hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))]",
+                "relative flex h-9 w-9 items-center justify-center rounded-lg text-[hsl(var(--muted-foreground))] transition-colors hover:bg-[hsl(var(--muted))] hover:text-[hsl(var(--foreground))] active:scale-95",
                 isNotificationsOpen && "bg-[hsl(var(--muted))] text-[hsl(var(--foreground))]"
               )}
               aria-label={`Notifications (${unreadCount} unread)`}

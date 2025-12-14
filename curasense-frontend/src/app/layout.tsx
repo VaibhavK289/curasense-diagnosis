@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { MobileNav } from "@/components/layout/mobile-nav";
 import { ChatAssistant } from "@/components/chat-assistant";
 import { GlobalBackground } from "@/components/backgrounds";
 import { ScrollProgress, ScrollToTop } from "@/components/motion";
@@ -12,6 +13,17 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "CuraSense - AI-Powered Healthcare Assistant",
@@ -35,14 +47,20 @@ export default function RootLayout({
           <ScrollProgress />
           
           <div className="relative flex min-h-screen">
+            {/* Desktop Sidebar - Hidden on mobile */}
             <Sidebar />
-            <div className="flex flex-1 flex-col pl-16 transition-all duration-300">
+            
+            {/* Main Content Area */}
+            <div className="flex flex-1 flex-col lg:pl-16 transition-all duration-300">
               <Header />
-              <main className="flex-1 p-8">
+              <main className="flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:p-8 pb-24 lg:pb-8">
                 {children}
               </main>
             </div>
           </div>
+          
+          {/* Mobile Navigation */}
+          <MobileNav />
           
           <ChatAssistant />
           
