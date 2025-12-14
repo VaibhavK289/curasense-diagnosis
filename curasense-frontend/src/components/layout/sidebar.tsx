@@ -18,6 +18,7 @@ import {
 import { cn } from "@/lib/utils";
 import { GradientText, PulsingDot } from "@/components/ui/aceternity";
 import { springPresets } from "@/styles/tokens/animations";
+import { useAuth } from "@/lib/auth-context";
 
 const navigation = [
   {
@@ -66,6 +67,12 @@ const bottomNav = [
 export function Sidebar() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  // Only show sidebar when user is authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <>

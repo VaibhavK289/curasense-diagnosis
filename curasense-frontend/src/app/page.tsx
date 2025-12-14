@@ -38,6 +38,7 @@ import {
   HeartbeatDivider,
 } from "@/components/ui/aceternity";
 import { springPresets, animationVariants } from "@/styles/tokens/animations";
+import { useAuth } from "@/lib/auth-context";
 
 // Feature cards with semantic category colors
 const features = [
@@ -76,12 +77,12 @@ const features = [
   },
 ];
 
-// Stats with varied icon colors
+// Stats with varied icon colors - highlighting capabilities, not vanity metrics
 const stats = [
-  { label: "Reports Analysed", value: "10", icon: FileText, color: "text-[hsl(var(--color-diagnosis))]" },
-  { label: "Accuracy Rate", value: "98.5%", icon: Shield, color: "text-[hsl(var(--color-success))]" },
-  { label: "Response Time", value: "<30s", icon: Zap, color: "text-[hsl(var(--color-warning))]" },
+  { label: "Document Types", value: "6+", icon: FileText, color: "text-[hsl(var(--color-diagnosis))]" },
+  { label: "Analysis Speed", value: "<30s", icon: Zap, color: "text-[hsl(var(--color-warning))]" },
   { label: "AI Models", value: "3", icon: Brain, color: "text-[hsl(var(--brand-secondary))]" },
+  { label: "Always Available", value: "24/7", icon: Shield, color: "text-[hsl(var(--color-success))]" },
 ];
 
 // How it works steps with sequential colors
@@ -109,7 +110,131 @@ const howItWorksSteps = [
   },
 ];
 
+// Authenticated Dashboard Component - what logged-in users see
+function AuthenticatedDashboard({ userName }: { userName?: string }) {
+  const greeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  };
+
+  return (
+    <div className="relative min-h-screen">
+      {/* Subtle background */}
+      <FloatingOrb 
+        className="w-64 h-64 -top-32 -right-32 opacity-30" 
+        delay={0} 
+        color="brand-primary"
+      />
+
+      <div className="relative z-10 space-y-8">
+        {/* Welcome Section */}
+        <section className="pt-4 pb-2">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={springPresets.smooth}
+          >
+            <p className="text-sm text-[hsl(var(--muted-foreground))] mb-1">
+              {greeting()}, {userName?.split(" ")[0] || "User"}
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-[hsl(var(--foreground))]">
+              What would you like to analyze today?
+            </h1>
+          </motion.div>
+        </section>
+
+        {/* Quick Actions Grid */}
+        <section>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, ...springPresets.smooth }}
+              >
+                <Link href={feature.href}>
+                  <Card className="h-full cursor-pointer hover:border-[hsl(var(--brand-primary)/0.4)] transition-colors p-5">
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`w-10 h-10 rounded-lg ${feature.bgColor} flex items-center justify-center flex-shrink-0`}
+                      >
+                        <feature.icon className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-semibold text-[hsl(var(--foreground))] mb-1">
+                          {feature.title}
+                        </h3>
+                        <p className="text-sm text-[hsl(var(--muted-foreground))] line-clamp-2">
+                          {feature.description}
+                        </p>
+                      </div>
+                      <ArrowRight className={`h-4 w-4 ${feature.textColor} flex-shrink-0 mt-1`} />
+                    </div>
+                  </Card>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Recent Activity - placeholder for real data */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-[hsl(var(--foreground))]">
+              Recent Activity
+            </h2>
+            <Link 
+              href="/history" 
+              className="text-sm text-[hsl(var(--brand-primary))] hover:underline flex items-center gap-1"
+            >
+              View all <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+          
+          <Card className="p-6">
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <div className="w-12 h-12 rounded-lg bg-[hsl(var(--muted))] flex items-center justify-center mb-4">
+                <FileText className="h-6 w-6 text-[hsl(var(--muted-foreground))]" />
+              </div>
+              <h3 className="text-base font-medium text-[hsl(var(--foreground))] mb-1">
+                No recent reports
+              </h3>
+              <p className="text-sm text-[hsl(var(--muted-foreground))] max-w-sm">
+                Upload a prescription, X-ray, or start a medicine comparison to see your analysis history here.
+              </p>
+              <Link href="/diagnosis/prescription" className="mt-4">
+                <Button size="sm" className="gap-2">
+                  <FileText className="h-4 w-4" />
+                  Upload Prescription
+                </Button>
+              </Link>
+            </div>
+          </Card>
+        </section>
+
+        {/* System Status - subtle, not flashy */}
+        <section className="pb-8">
+          <div className="flex items-center gap-2 text-sm text-[hsl(var(--muted-foreground))]">
+            <span className="flex h-2 w-2 rounded-full bg-[hsl(var(--color-success))]" />
+            All AI systems operational
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
+  const { isAuthenticated, user } = useAuth();
+
+  // Authenticated users see a dashboard, not the marketing landing page
+  if (isAuthenticated) {
+    return <AuthenticatedDashboard userName={user?.name} />;
+  }
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Elements - Organic shapes mixed with orbs */}
@@ -367,7 +492,7 @@ export default function Home() {
                     whileHover={{ backgroundColor: 'rgba(255,255,255,0.2)' }}
                   >
                     <CheckCircle2 className="h-4 w-4" />
-                    HIPAA Compliant Design
+                    Built for Privacy & Security
                   </motion.div>
                 </div>
               </div>

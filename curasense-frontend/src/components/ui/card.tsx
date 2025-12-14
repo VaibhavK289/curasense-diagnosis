@@ -8,8 +8,10 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))] shadow-sm",
-      "transition-shadow duration-200 hover:shadow-md",
+      // Clinical design: tighter radius (rounded-lg = 0.5rem vs rounded-xl = 0.75rem)
+      // Solid border for medical precision, minimal shadow for grounded feel
+      "rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))]",
+      "transition-colors duration-150",
       className
     )}
     {...props}

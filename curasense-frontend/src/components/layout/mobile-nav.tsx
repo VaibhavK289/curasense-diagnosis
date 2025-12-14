@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { GradientText } from "@/components/ui/aceternity";
 import { springPresets } from "@/styles/tokens/animations";
+import { useAuth } from "@/lib/auth-context";
 
 const navigation = [
   {
@@ -77,6 +78,7 @@ export function MobileNav() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const prevPathname = useRef(pathname);
+  const { isAuthenticated } = useAuth();
 
   // Close menu on route change (using ref to avoid lint warning)
   useEffect(() => {
@@ -104,6 +106,11 @@ export function MobileNav() {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  // Only show mobile nav when user is authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <>
